@@ -17,22 +17,21 @@ def _parse_date(date: str) -> datetime:
 
 
 @transaction.atomic
-def create_order(tickets: list, username: str, date: datetime = None) -> list:
+def create_order(tickets: list, username: str, date: datetime = None) -> Order:
     user = User.objects.get(username=username)
     order = Order.objects.create(user=user)
-    with transaction.atomic():
-        if date:
+    if date:
 
-            if isinstance(date, str):
-                Order.objects.update(
-                    created_at=datetime.strptime(date, "%Y-%m-%d %H:%M"))
+        if isinstance(date, str):
+            Order.objects.update(
+                created_at=datetime.strptime(date, "%Y-%m-%d %H:%M"))
 
-        for ticket in tickets:
-            ms = MovieSession.objects.get(pk=ticket["movie_session"])
-            Ticket.objects.create(movie_session=ms,
-                                  order=order,
-                                  row=ticket["row"],
-                                  seat=ticket["seat"])
+    for ticket in tickets:
+        ms = MovieSession.objects.get(pk=ticket["movie_session"])
+        Ticket.objects.create(movie_session=ms,
+                              order=order,
+                              row=ticket["row"],
+                              seat=ticket["seat"])
     return order
 
 

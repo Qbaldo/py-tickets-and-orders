@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('row', models.IntegerField()),
                 ('seat', models.IntegerField()),
-                ('movie_session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tickets', to='db.movie')),
+                ('movie_session', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tickets', to='MovieSession')),
                 ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tickets', to='db.order')),
             ],
         ),
